@@ -1,0 +1,13 @@
+.filterContainer{
+    flex: 1;
+    height: 100vh;
+
+}
+
+.carListing{
+    flex: 4;
+    height: 100vh;
+    background-color: blue;
+
+
+}
