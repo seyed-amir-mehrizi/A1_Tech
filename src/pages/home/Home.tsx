@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import SelectItem from '../../components/select-item/SelectItem';
 import config from '../../assets/config/config.json'
 import styles from './home.module.css'
+import { useFetch } from '../../hooks/useFetch';
 function Home() {
   const [colors, setColors] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
@@ -11,22 +13,19 @@ function Home() {
     fetchManufacturers();
   }, []);
 
-  const fetchColors = async () => {
-    try {
-      const result = await (await axios.get(config.api+'colors')).data;
-      setColors(result.colors);
-    } catch (error) {
-
-    }
+  const fetchColors = () => {
+    useFetch('colorsrtgtrg').then((res) => {
+      setColors(res.colors);
+    })
+    .catch((error)=>{
+      console.log("errororororororo : " , error)
+    })
+    ;
   }
-  const fetchManufacturers = async () => {
-    try {
-      const result = await (await axios.get(config.api+'manufacturers')).data;
-      setManufacturers(result.manufacturers)
-      
-    } catch (error) {
-
-    }
+  const fetchManufacturers = () => {
+    useFetch('manufacturers').then((res) => {
+      setManufacturers(res.manufacturers);
+    });
   }
 
 
