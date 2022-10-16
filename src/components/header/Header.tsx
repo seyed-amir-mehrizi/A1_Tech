@@ -12,6 +12,11 @@ function Header() {
                     </Link>
                 </div>
                 <div className='d-flex align-items-center justify-content-between'>
+                    <div className='mx-3 cursor-pointer'> 
+                        <Link to='/favorite-collection'>
+                            Favorites collection
+                        </Link>
+                    </div>
                     <div className='cursor-pointer'>Purchase</div>
                     <div className='mx-3 cursor-pointer'>My Orders</div>
                     <div className='cursor-pointer'>Sell</div>
