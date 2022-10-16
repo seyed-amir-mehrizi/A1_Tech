@@ -24,3 +24,7 @@ code {
 .button:hover{
   background-color: #d37324;
 }
+
+.cursor-pointer{
+  cursor: pointer;
+}
