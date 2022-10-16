@@ -9,6 +9,7 @@ function CarDetails() {
   const params = useParams();
   const [car, setCar] = useState<Car | undefined>();
   const [carlist, setCarlist] = useState<any[]>([]);
+  const [isSelected, setIsSelected] = useState<boolean>(false);
   useEffect(() => {
     fetchCarDetails();
     checkListOfFavoriteCars();
@@ -21,6 +22,14 @@ function CarDetails() {
   }
 
   const saveFavoriteCar = () => {
+    if (carlist.length > 0) {
+      const newArr = carlist.find((item) => item.stockNumber === car?.stockNumber);
+      if (newArr) {
+        setIsSelected(true);
+        return
+      }
+      else setCarlist([...carlist, car]);
+    }
     setCarlist([...carlist, car])
   }
 
@@ -35,7 +44,7 @@ function CarDetails() {
   }
   return (
     <div className="container-fluid">
-      <div className="jumbotron bg-white">
+      <div className="jumbotron bg-white text-center">
         <img src={car?.pictureUrl} />
       </div>
       <div className="container d-flex align-items-center justify-content-between">
@@ -53,17 +62,26 @@ function CarDetails() {
             this page are not definitive and may change due to bad weather conditions.
           </p>
         </div>
-        <div className='card'>
-          <div className="card-body">
-            <p>
-              If you like this car, click the button and
-              save it in your collection of favorite items.
-            </p>
-            <div className='d-flex justify-content-end'>
-              <button className='button' onClick={saveFavoriteCar}>Save</button>
+        <div className='d-flex flex-column'>
+          <div className='card'>
+            <div className="card-body">
+              <p>
+                If you like this car, click the button and
+                save it in your collection of favorite items.
+              </p>
+              <div className='d-flex justify-content-end'>
+                <button className='button' onClick={saveFavoriteCar}>Save</button>
+              </div>
             </div>
           </div>
+          {
+            isSelected ? <div className="alert alert-danger my-2">
+              You have selected This Car.
+            </div> : null
+          }
         </div>
+
+
       </div>
     </div>
   )

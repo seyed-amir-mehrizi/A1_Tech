@@ -18,6 +18,10 @@ function FavoriteCollection() {
         setCarsList(newCars);
     }
 
+    useEffect(() => {
+        localStorage.setItem('cars', JSON.stringify(carsList))
+    }, [carsList])
+
 
     return (
         <div className='container'>
