@@ -21,11 +21,11 @@ function App() {
 
 
 
-      <footer className="footer mt-auto py-3 bg-danger">
+      {/* <footer className="footer mt-auto py-3 bg-danger">
         <div className="container">
           <span className="text-white">Place sticky footer content here.</span>
         </div>
-      </footer>
+      </footer> */}
     </>
   );
 }
