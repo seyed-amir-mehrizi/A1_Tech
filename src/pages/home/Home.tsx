@@ -6,11 +6,15 @@ import config from '../../assets/config/config.json'
 import styles from './home.module.css'
 import { useFetch } from '../../hooks/useFetch';
 import CarListing from '../../components/car-listing/CarListing';
+import Pagination from 'react-bootstrap/Pagination'
 function Home() {
   const [colors, setColors] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
   const [cars, setCars] = useState([]);
-  const [numberOfAllCars , setNumberOfAllCars] = useState<number>(0);
+  const [numberOfAllCars, setNumberOfAllCars] = useState<number>(0);
+  const [color, setColor] = useState('');
+  const [manufacturer, setManufacturer] = useState('');
+  const [paging, setPaging] = useState(1)
   useEffect(() => {
     fetchColors();
     fetchManufacturers();
@@ -34,7 +38,12 @@ function Home() {
 
   const fetchAllCars = async () => {
     try {
-      const result = await (await axios.get(config.api + 'cars')).data;
+      const params = {
+        manufacturer,
+        color,
+        page: paging
+      }
+      const result = await (await axios.get(config.api + 'cars', { params })).data;
       console.log(result);
       setCars(result.cars);
       setNumberOfAllCars(result.totalCarsCount)
@@ -45,13 +54,30 @@ function Home() {
 
 
   const handleChangeColor = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("eeee : ", e.target.value)
+    // console.log("eeee : ", e.target.value)
+    setColor(e.target.value)
   }
 
   const handleChangeManufacturer = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("eeee : ", e.target.value)
+    setManufacturer(e.target.value);
+    // console.log("eeee : ", e.target.value)
 
   }
+
+  const filterCars = () => {
+    setPaging(1);
+    fetchAllCars();
+  }
+
+  const handlePageChange = (pageNumber: number) => {
+    setPaging(pageNumber);
+  };
+
+  useEffect(() => {
+    fetchAllCars();
+  }, [paging])
+
+
   return (
     <main className='container-fluid d-flex h-100 w-100 py-4'>
       <div className={styles.filterContainer}>
@@ -71,7 +97,7 @@ function Home() {
               name='name'
             />
             <div className='d-flex justify-content-end'>
-              <button className='button'>Filter</button>
+              <button className='button' onClick={filterCars}>Filter</button>
             </div>
           </div>
         </div>
@@ -83,6 +109,19 @@ function Home() {
           cars && <CarListing cars={cars} />
         }
       </div>
+      <Pagination className="px-4">
+        {cars.map((_, index) => {
+          return (
+            <Pagination.Item
+              onClick={() => handlePageChange(index + 1)}
+              key={index + 1}
+              active={index + 1 === paging}
+            >
+              {index + 1}
+            </Pagination.Item>
+          );
+        })}
+      </Pagination>
 
     </main>
   )
