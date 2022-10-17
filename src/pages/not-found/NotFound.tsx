@@ -1,5 +1,3 @@
-import React from 'react'
-import styles from './notFound.module.css'
 import logo from '../../assets/images/logo.png';
 import { Link } from 'react-router-dom';
 

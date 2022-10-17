@@ -14,7 +14,7 @@ function Header() {
                 <div className='d-flex align-items-center justify-content-between'>
                     <div className='mx-3 cursor-pointer accent-text'> 
                         <Link to='/favorite-collection' className='accent-text'>
-                            Favorites collection
+                            Favorite collections
                         </Link>
                     </div>
                     <div className='cursor-pointer'>Purchase</div>

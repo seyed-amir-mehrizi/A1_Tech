@@ -1,28 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Car } from '../../assets/models/models';
-import styles from './favorite.module.css';
 import { FaTrashAlt } from 'react-icons/fa';
+
 function FavoriteCollection() {
     const [carsList, setCarsList] = useState([]);
-
     useEffect(() => {
-        const result = JSON.parse(localStorage.getItem('cars') as any);
+        const result = JSON.parse(localStorage.getItem('cars') as string);
         setCarsList(result);
     }, []);
-
-
     const deleteCar = (stockNumber: number) => {
         const newCars = [...carsList].filter((car: Car) => {
             return car.stockNumber !== stockNumber
         });
         setCarsList(newCars);
     }
-
     useEffect(() => {
         localStorage.setItem('cars', JSON.stringify(carsList))
     }, [carsList])
-
-
     return (
         <div className='container'>
             <h3 className='my-3'>
@@ -37,7 +31,6 @@ function FavoriteCollection() {
                         <th>Fuel Type</th>
                         <th>Color</th>
                         <th></th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -58,12 +51,8 @@ function FavoriteCollection() {
                                 </td>
                             </tr>
                     }
-
-
-
                 </tbody>
             </table>
-
         </div>
     )
 }

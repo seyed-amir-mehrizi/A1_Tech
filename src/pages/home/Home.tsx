@@ -1,13 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import SelectItem from '../../components/select-item/SelectItem';
-import config from '../../assets/config/config.json'
 import styles from './home.module.css'
 import { useFetch } from '../../hooks/useFetch';
 import CarListing from '../../components/car-listing/CarListing';
 import Skeleton from 'react-loading-skeleton';
-import Pagination from '../../components/pagination/Pagination';
 
 const createArray = (length: number) => [...Array(length)];
 function Home() {
@@ -41,22 +38,20 @@ function Home() {
     });
   }
 
-  const fetchAllCars = async () => {
+  const fetchAllCars = () => {
     setIsLoading(true);
-    try {
-      const params = {
-        manufacturer,
-        color,
-        page: currentPage
-      }
-      const result = await (await axios.get(config.api + 'cars', { params })).data;
-      setCars(result.cars);
-      setNumberOfAllCars(result.totalCarsCount)
-      setIsLoading(false);
-      setTotalRecords(result.totalCarsCount)
-    } catch (error) {
-
+    const params = {
+      manufacturer,
+      color,
+      page: currentPage
     }
+    useFetch('cars', params)
+      .then((result) => {
+        setCars(result.cars);
+        setNumberOfAllCars(result.totalCarsCount)
+        setIsLoading(false);
+        setTotalRecords(result.totalCarsCount)
+      })
   }
 
 
@@ -71,10 +66,6 @@ function Home() {
   const filterCars = () => {
     setCurrentPage(1);
     fetchAllCars();
-  }
-
-  const onPageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
   }
 
   useEffect(() => {

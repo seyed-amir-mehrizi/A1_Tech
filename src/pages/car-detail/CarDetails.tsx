@@ -1,11 +1,8 @@
-import styles from './carDetails.module.css';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useFetch } from '../../hooks/useFetch';
-import axios from 'axios';
-import config from '../../assets/config/config.json'
 import { Car } from '../../assets/models/models';
 import Skeleton from 'react-loading-skeleton';
+import { useFetch } from '../../hooks/useFetch';
 
 function CarDetails() {
   const params = useParams();
@@ -17,14 +14,16 @@ function CarDetails() {
   useEffect(() => {
     fetchCarDetails();
     checkListOfFavoriteCars();
-
   }, []);
 
   const fetchCarDetails = async () => {
     setIsLoading(true);
-    const result = await (await axios.get(config.api + `cars/${params.stockNumber}`)).data;
-    setCar(result.car);
-    setIsLoading(false);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useFetch(`cars/${params.stockNumber}`)
+      .then((res) => {
+        setCar(res.car);
+        setIsLoading(false);
+      });
 
   }
 
@@ -45,7 +44,7 @@ function CarDetails() {
   }, [carlist])
 
   const checkListOfFavoriteCars = () => {
-    const result = JSON.parse(localStorage.getItem('cars') as any);
+    const result = JSON.parse(localStorage.getItem('cars') as string);
     if (result) setCarlist(result);
 
   }
@@ -53,7 +52,7 @@ function CarDetails() {
     <div className="container-fluid">
       <div className="jumbotron bg-white text-center">
         {
-          isLoading ? <Skeleton height={100} width={400} /> : <img src={car?.pictureUrl} />
+          isLoading ? <Skeleton height={100} width={400} /> : <img src={car?.pictureUrl} alt={car?.modelName} />
         }
       </div>
       <div className="container d-flex align-items-center justify-content-between">
