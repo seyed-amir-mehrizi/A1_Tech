@@ -6,8 +6,8 @@ import config from '../../assets/config/config.json'
 import styles from './home.module.css'
 import { useFetch } from '../../hooks/useFetch';
 import CarListing from '../../components/car-listing/CarListing';
-import Pagination from 'react-bootstrap/Pagination';
 import Skeleton from 'react-loading-skeleton';
+import Pagination from '../../components/pagination/Pagination';
 
 const createArray = (length: number) => [...Array(length)];
 function Home() {
@@ -17,8 +17,10 @@ function Home() {
   const [numberOfAllCars, setNumberOfAllCars] = useState<number>(0);
   const [color, setColor] = useState('');
   const [manufacturer, setManufacturer] = useState('');
-  const [paging, setPaging] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(1);
+
   useEffect(() => {
     fetchColors();
     fetchManufacturers();
@@ -45,12 +47,13 @@ function Home() {
       const params = {
         manufacturer,
         color,
-        page: paging
+        page: currentPage
       }
       const result = await (await axios.get(config.api + 'cars', { params })).data;
       setCars(result.cars);
       setNumberOfAllCars(result.totalCarsCount)
-      setIsLoading(false)
+      setIsLoading(false);
+      setTotalRecords(result.totalCarsCount)
     } catch (error) {
 
     }
@@ -66,17 +69,19 @@ function Home() {
   }
 
   const filterCars = () => {
-    setPaging(1);
+    setCurrentPage(1);
     fetchAllCars();
   }
 
-  const handlePageChange = (pageNumber: number) => {
-    setPaging(pageNumber);
-  };
+  const onPageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  }
 
   useEffect(() => {
     fetchAllCars();
-  }, [paging]);
+  }, [currentPage])
+
+
   return (
     <main className='container-fluid d-flex h-100 w-100 py-4'>
       <div className={styles.filterContainer}>
@@ -120,21 +125,13 @@ function Home() {
               </div>
             })
         }
+        <Pagination currentPage={currentPage} total={totalRecords}
+          limit={10}
+          onPageChange={(page: number) => onPageChange(page)}
+        />
       </div>
 
-      {/* <Pagination className="px-4">
-        {cars.map((_, index) => {
-          return (
-            <Pagination.Item
-              onClick={() => handlePageChange(index + 1)}
-              key={index + 1}
-              active={index + 1 === paging}
-            >
-              {index + 1}
-            </Pagination.Item>
-          );
-        })}
-      </Pagination> */}
+
 
     </main>
   )
