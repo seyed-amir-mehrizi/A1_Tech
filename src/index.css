@@ -28,3 +28,6 @@ code {
 .cursor-pointer{
   cursor: pointer;
 }
+.text-orange { 
+  color: #ea7f28;
+}
