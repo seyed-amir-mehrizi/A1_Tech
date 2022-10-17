@@ -4,7 +4,7 @@ import logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom';
 function Header() {
     return (
-        <header>
+        <header className={styles.headerStyle}>
             <nav className='d-flex align-items-center justify-content-between w-100 bg-white py-2 px-3 border-bottom'>
                 <div className='d-flex align-items-center'>
                     <Link to='/' className="navbar-brand">
