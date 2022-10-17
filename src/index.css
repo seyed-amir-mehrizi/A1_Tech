@@ -25,6 +25,16 @@ code {
   background-color: #d37324;
 }
 
+.disabled-button {
+  width: 128px;
+  height: 32px;
+  background-color: #f6c8a2;
+  border: none;
+  color: #fff;
+  font-weight: 400;
+  border-radius: 3px;
+}
+
 .cursor-pointer{
   cursor: pointer;
 }

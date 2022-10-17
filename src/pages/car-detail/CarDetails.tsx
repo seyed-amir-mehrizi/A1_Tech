@@ -5,11 +5,15 @@ import { useFetch } from '../../hooks/useFetch';
 import axios from 'axios';
 import config from '../../assets/config/config.json'
 import { Car } from '../../assets/models/models';
+import Skeleton from 'react-loading-skeleton';
+
 function CarDetails() {
   const params = useParams();
   const [car, setCar] = useState<Car | undefined>();
   const [carlist, setCarlist] = useState<any[]>([]);
   const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   useEffect(() => {
     fetchCarDetails();
     checkListOfFavoriteCars();
@@ -17,8 +21,11 @@ function CarDetails() {
   }, []);
 
   const fetchCarDetails = async () => {
+    setIsLoading(true);
     const result = await (await axios.get(config.api + `cars/${params.stockNumber}`)).data;
-    setCar(result.car)
+    setCar(result.car);
+    setIsLoading(false);
+
   }
 
   const saveFavoriteCar = () => {
@@ -45,22 +52,35 @@ function CarDetails() {
   return (
     <div className="container-fluid">
       <div className="jumbotron bg-white text-center">
-        <img src={car?.pictureUrl} />
+        {
+          isLoading ? <Skeleton height={100} width={400} /> : <img src={car?.pictureUrl} />
+        }
       </div>
       <div className="container d-flex align-items-center justify-content-between">
         <div className='text-left'>
-          <h3>{car?.manufacturerName} {car?.modelName}</h3>
-          <h5>
-            <span>Stock # {car?.stockNumber} - </span>
-            <span>{car?.mileage.number} {car?.mileage.unit} - </span>
-            <span>{car?.fuelType} - </span>
-            <span>{car?.color}</span>
-          </h5>
-          <p>
-            This car is Currently available and can be delivered as soon as
-            tomorrow morning. Please be aware that delivery times shown in
-            this page are not definitive and may change due to bad weather conditions.
-          </p>
+          {
+            isLoading ? <div className="media-body mr-3">
+              <Skeleton width={60} height='100%' className='mb-3' />
+              <p>
+                <Skeleton count={3} width={800} height={10} />
+              </p>
+            </div> :
+              <>
+                <h3>{car?.manufacturerName} {car?.modelName}</h3>
+                <h5>
+                  <span>Stock # {car?.stockNumber} - </span>
+                  <span>{car?.mileage.number} {car?.mileage.unit} - </span>
+                  <span>{car?.fuelType} - </span>
+                  <span>{car?.color}</span>
+                </h5>
+                <p>
+                  This car is Currently available and can be delivered as soon as
+                  tomorrow morning. Please be aware that delivery times shown in
+                  this page are not definitive and may change due to bad weather conditions.
+                </p>
+              </>
+          }
+
         </div>
         <div className='d-flex flex-column'>
           <div className='card'>
@@ -70,7 +90,7 @@ function CarDetails() {
                 save it in your collection of favorite items.
               </p>
               <div className='d-flex justify-content-end'>
-                <button className='button' onClick={saveFavoriteCar}>Save</button>
+                <button className={isLoading ? 'disabled-button' : 'button'} onClick={saveFavoriteCar} disabled={isLoading}>Save</button>
               </div>
             </div>
           </div>

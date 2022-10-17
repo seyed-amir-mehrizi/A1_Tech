@@ -48,7 +48,6 @@ function Home() {
         page: paging
       }
       const result = await (await axios.get(config.api + 'cars', { params })).data;
-      console.log(result);
       setCars(result.cars);
       setNumberOfAllCars(result.totalCarsCount)
       setIsLoading(false)
@@ -59,14 +58,11 @@ function Home() {
 
 
   const handleChangeColor = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // console.log("eeee : ", e.target.value)
     setColor(e.target.value)
   }
 
   const handleChangeManufacturer = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setManufacturer(e.target.value);
-    // console.log("eeee : ", e.target.value)
-
   }
 
   const filterCars = () => {
@@ -80,9 +76,7 @@ function Home() {
 
   useEffect(() => {
     fetchAllCars();
-  }, [paging])
-
-
+  }, [paging]);
   return (
     <main className='container-fluid d-flex h-100 w-100 py-4'>
       <div className={styles.filterContainer}>
@@ -114,9 +108,9 @@ function Home() {
           !isLoading ?
             <CarListing cars={cars} />
             :
-            createArray(10).map((item) => {
-              return <div key={item} className="media border p-3 my-2">
-                <Skeleton  height={100} width={100}/>
+            createArray(10).map((item, i) => {
+              return <div key={i} className="media border p-3 my-2">
+                <Skeleton height={100} width={100} />
                 <div className="media-body ml-3">
                   <Skeleton width={60} height='100%' className='mb-3' />
                   <p>
