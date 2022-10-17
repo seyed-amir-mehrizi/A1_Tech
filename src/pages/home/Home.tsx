@@ -6,7 +6,10 @@ import config from '../../assets/config/config.json'
 import styles from './home.module.css'
 import { useFetch } from '../../hooks/useFetch';
 import CarListing from '../../components/car-listing/CarListing';
-import Pagination from 'react-bootstrap/Pagination'
+import Pagination from 'react-bootstrap/Pagination';
+import Skeleton from 'react-loading-skeleton';
+
+const createArray = (length: number) => [...Array(length)];
 function Home() {
   const [colors, setColors] = useState([]);
   const [manufacturers, setManufacturers] = useState([]);
@@ -14,7 +17,8 @@ function Home() {
   const [numberOfAllCars, setNumberOfAllCars] = useState<number>(0);
   const [color, setColor] = useState('');
   const [manufacturer, setManufacturer] = useState('');
-  const [paging, setPaging] = useState(1)
+  const [paging, setPaging] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     fetchColors();
     fetchManufacturers();
@@ -27,8 +31,7 @@ function Home() {
     })
       .catch((error) => {
         console.log("errororororororo : ", error)
-      })
-      ;
+      });
   }
   const fetchManufacturers = () => {
     useFetch('manufacturers').then((res) => {
@@ -37,6 +40,7 @@ function Home() {
   }
 
   const fetchAllCars = async () => {
+    setIsLoading(true);
     try {
       const params = {
         manufacturer,
@@ -47,6 +51,7 @@ function Home() {
       console.log(result);
       setCars(result.cars);
       setNumberOfAllCars(result.totalCarsCount)
+      setIsLoading(false)
     } catch (error) {
 
     }
@@ -106,10 +111,24 @@ function Home() {
         <h3>Available Cars</h3>
         <h5 className='my-3'>Showing 10 of {numberOfAllCars} results</h5>
         {
-          cars && <CarListing cars={cars} />
+          !isLoading ?
+            <CarListing cars={cars} />
+            :
+            createArray(10).map((item) => {
+              return <div key={item} className="media border p-3 my-2">
+                <Skeleton  height={100} width={100}/>
+                <div className="media-body ml-3">
+                  <Skeleton width={60} height='100%' className='mb-3' />
+                  <p>
+                    <Skeleton count={3} width={150} height={10} />
+                  </p>
+                </div>
+              </div>
+            })
         }
       </div>
-      <Pagination className="px-4">
+
+      {/* <Pagination className="px-4">
         {cars.map((_, index) => {
           return (
             <Pagination.Item
@@ -121,7 +140,7 @@ function Home() {
             </Pagination.Item>
           );
         })}
-      </Pagination>
+      </Pagination> */}
 
     </main>
   )
