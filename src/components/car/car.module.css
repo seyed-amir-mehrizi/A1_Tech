@@ -1,6 +1,11 @@
 
 .viewDetails{
-    color : #ea7f28;
+    color : var(--color-primary);
     display: inline-block;
     cursor: pointer;
+}
+
+.viewDetails:hover{
+    text-decoration: underline;
+    color: var(--color-secondary);
 }

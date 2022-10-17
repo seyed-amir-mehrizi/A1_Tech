@@ -125,19 +125,14 @@ function Home() {
               </div>
             })
         }
-        <div className='d-flex align-items-center justify-content-center'>
-          <span className='cursor-pointer text-orange' onClick={() => setCurrentPage(1)}>First</span>
-          <span className='cursor-pointer text-orange mx-2' onClick={() => setCurrentPage((pre) => pre - 1)}>Previous</span>
-
+        <div className='d-flex align-items-center justify-content-center my-3'>
+          <span className='cursor-pointer primary-text' onClick={() => setCurrentPage(1)}>First</span>
+          <span className='cursor-pointer primary-text mx-2' onClick={() => setCurrentPage((pre) => pre - 1)}>Previous</span>
           <span>
-            {/* <Pagination currentPage={currentPage} total={totalRecords}
-              limit={10}
-              onPageChange={(page: number) => onPageChange(page)}
-            /> */}
             Page {currentPage} of {Math.ceil(totalRecords / 10)}
           </span>
-          <span className='cursor-pointer text-orange mx-2' onClick={() => setCurrentPage((pre) => pre + 1)}>Next</span>
-          <span className='cursor-pointer text-orange' onClick={() => setCurrentPage(Math.ceil(totalRecords / 10))}>Last</span>
+          <span className='cursor-pointer primary-text mx-2' onClick={() => setCurrentPage((pre) => pre + 1)}>Next</span>
+          <span className='cursor-pointer primary-text' onClick={() => setCurrentPage(Math.ceil(totalRecords / 10))}>Last</span>
         </div>
 
       </div>

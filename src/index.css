@@ -1,3 +1,13 @@
+/* for defining the custom properties */
+:root {
+  --color-primary: #ea7f28;
+  --color-secondary: #d37324;
+  --color-accent: #4a4a4a;
+  --color-medium: #ededed;
+}
+
+
+
 @font-face {
   font-family: 'Roboto';
   src: url('/src/assets/font/Roboto.woff');
@@ -5,11 +15,21 @@
 
 * {
   font-family: 'Roboto';
+  color: var(--color-accent);
+  font-size: 14px;
 }
 
 
 body {
   margin: 0;
+}
+
+.primary-text {
+  color: var(--color-primary);
+}
+
+.accent-text {
+  color: var(--color-accent);
 }
 
 
@@ -44,4 +64,9 @@ body {
 
 .text-orange {
   color: #ea7f28;
+}
+
+a:hover {
+  text-decoration: none !important;
+  color: var(--color-accent) !important;
 }
