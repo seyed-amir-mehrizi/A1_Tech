@@ -116,10 +116,22 @@ function Home() {
       <div className={`${styles.carListing} px-3`}>
         <AppToast show={show} errorMessage={errorMessage} />
         <h3>Available Cars</h3>
-        <h5 className='my-3'>Showing 10 of {numberOfAllCars} results</h5>
+        {
+         !isLoading ?  <h5 className='my-3'>Showing 10 of {numberOfAllCars} results</h5> : 
+         <Skeleton count={1} width={200} height={10} />
+        }
         {
           !isLoading ?
-            <CarListing cars={cars} />
+          <div>
+          <CarListing cars={cars} />
+          <Pagination
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          limit={10}
+          total={totalRecords}
+        />
+          </div>
+            
             :
             createArray(10).map((item, i) => {
               return <div key={i} className="media border p-3 my-2">
@@ -133,12 +145,7 @@ function Home() {
               </div>
             })
         }
-        <Pagination
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-          limit={10}
-          total={totalRecords}
-        />
+
       </div>
     </main>
   )
