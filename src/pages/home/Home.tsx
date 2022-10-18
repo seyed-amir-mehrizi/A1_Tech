@@ -5,6 +5,7 @@ import styles from './home.module.css'
 import { useFetch } from '../../hooks/useFetch';
 import CarListing from '../../components/car-listing/CarListing';
 import Skeleton from 'react-loading-skeleton';
+import AppToast from '../../components/app-toast/AppToast';
 
 const createArray = (length: number) => [...Array(length)];
 function Home() {
@@ -17,11 +18,18 @@ function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(1);
-
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [show, setShow] = useState(false);
   useEffect(() => {
-    fetchColors();
-    fetchManufacturers();
-    fetchAllCars();
+    let isCanceled = false;
+    if (!isCanceled) {
+      fetchColors();
+      fetchManufacturers();
+      fetchAllCars();
+    }
+    return () => {
+      isCanceled = true;
+    }
   }, []);
 
   const fetchColors = () => {
@@ -29,12 +37,16 @@ function Home() {
       setColors(res.colors);
     })
       .catch((error) => {
-        console.log("errororororororo : ", error)
-      });
+        setErrorMessage(error.message);
+        setShow(true)
+      })
   }
   const fetchManufacturers = () => {
     useFetch('manufacturers').then((res) => {
       setManufacturers(res.manufacturers);
+    }).catch((error) => {
+      setErrorMessage(error.message);
+      setShow(true)
     });
   }
 
@@ -51,6 +63,9 @@ function Home() {
         setNumberOfAllCars(result.totalCarsCount)
         setIsLoading(false);
         setTotalRecords(result.totalCarsCount)
+      }).catch((error) => {
+        setErrorMessage(error.message);
+        setShow(true)
       })
   }
 
@@ -75,6 +90,7 @@ function Home() {
 
   return (
     <main className='container-fluid d-flex h-100 w-100 py-4'>
+
       <div className={styles.filterContainer}>
         <div className="card">
           <div className="card-body">
@@ -98,6 +114,7 @@ function Home() {
         </div>
       </div>
       <div className={`${styles.carListing} px-3`}>
+        <AppToast show={show} errorMessage={errorMessage} />
         <h3>Available Cars</h3>
         <h5 className='my-3'>Showing 10 of {numberOfAllCars} results</h5>
         {

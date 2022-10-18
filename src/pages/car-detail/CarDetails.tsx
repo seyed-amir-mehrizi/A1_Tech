@@ -3,17 +3,25 @@ import { useEffect, useState } from 'react';
 import { Car } from '../../assets/models/models';
 import Skeleton from 'react-loading-skeleton';
 import { useFetch } from '../../hooks/useFetch';
-
+import AppToast from '../../components/app-toast/AppToast';
 function CarDetails() {
   const params = useParams();
   const [car, setCar] = useState<Car | undefined>();
   const [carlist, setCarlist] = useState<any[]>([]);
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    fetchCarDetails();
+    let isCanceled = false;
+    if (!isCanceled) {
+      fetchCarDetails();
+    }
     checkListOfFavoriteCars();
+    return () => {
+      isCanceled = true;
+    }
   }, []);
 
   const fetchCarDetails = async () => {
@@ -23,7 +31,10 @@ function CarDetails() {
       .then((res) => {
         setCar(res.car);
         setIsLoading(false);
-      });
+      }).catch((error) => {
+        setErrorMessage(error.message);
+        setShow(true)
+      })
 
   }
 
@@ -50,6 +61,8 @@ function CarDetails() {
   }
   return (
     <div className="container-fluid">
+
+      <AppToast show={show} errorMessage={errorMessage} />
       <div className="jumbotron bg-white text-center">
         {
           isLoading ? <Skeleton height={100} width={400} /> : <img src={car?.pictureUrl} alt={car?.modelName} />

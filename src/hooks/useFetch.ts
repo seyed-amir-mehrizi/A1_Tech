@@ -1,11 +1,13 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import config from '../assets/config/config.json'
 
-export const useFetch = async (url: string , params?:any) => {
+export const useFetch = async (url: string, params?: any) => {
     try {
-        const result = await (await axios.get(config.api + url , {params})).data;
+        const result = await (await axios.get(config.api + url, { params })).data;
         return result
-    } catch (error) {
-        
+    } catch (error: any) {
+        if (error instanceof AxiosError) {
+            throw new Error(error.message)
+        }
     }
 }
