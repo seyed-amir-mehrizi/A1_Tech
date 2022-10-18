@@ -7,32 +7,30 @@ type PaginationProps = {
     onPageChange: (e: number) => void
 }
 
-const createArrayPage = (length: number) => [...Array(length)];
 
-function Pagination({ currentPage, total, limit, onPageChange }: PaginationProps) {
+function Pagination({ currentPage, total, limit = 10, onPageChange }: PaginationProps) {
 
-    const pageNumber = [];
-    for (let index = 1; index <= Math.ceil(total / limit); index++) {
-        pageNumber.push(index);
-
-    }
-
+ const numberOfPages = Math.ceil(total / limit);
     return (
-        <nav className='d-flex justify-content-center'>
-            <ul className='pagination flex-wrap'>
-                {
-                    pageNumber.map((number, i) => {
-                        const activeClass = currentPage === number ? 'active' : '';
-                        return <li key={number} className={`m-1 page-item ${activeClass}`}
-                            onClick={() => onPageChange(number)}>
-                            <a className="page-link cursor-pointer">
-                                {number}
-                            </a>
-                        </li>
-                    })
+        <div className='d-flex align-items-center justify-content-center my-3'>
+            <span className='cursor-pointer primary-text' onClick={() => onPageChange(1)}>First</span>
+            <span className='cursor-pointer primary-text mx-2' onClick={() => {
+                if (currentPage - 1 <= 0) {
+                    onPageChange(1);
                 }
-            </ul>
-        </nav>
+                else onPageChange(currentPage - 1)
+            }}>Previous</span>
+            <span>
+                Page {currentPage} of {numberOfPages}
+            </span>
+            <span className='cursor-pointer primary-text mx-2' onClick={() => {
+                if (currentPage + 1 > numberOfPages) {
+                    onPageChange(numberOfPages);
+                }
+                else onPageChange(currentPage + 1)
+            }}>Next</span>
+            <span className='cursor-pointer primary-text' onClick={() => onPageChange(numberOfPages)}>Last</span>
+        </div>
     )
 }
 

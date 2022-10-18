@@ -6,6 +6,7 @@ import { useFetch } from '../../hooks/useFetch';
 import CarListing from '../../components/car-listing/CarListing';
 import Skeleton from 'react-loading-skeleton';
 import AppToast from '../../components/app-toast/AppToast';
+import Pagination from '../../components/pagination/Pagination';
 
 const createArray = (length: number) => [...Array(length)];
 function Home() {
@@ -133,15 +134,31 @@ function Home() {
               </div>
             })
         }
-        <div className='d-flex align-items-center justify-content-center my-3'>
+        <Pagination
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          limit={10}
+          total={totalRecords}
+        />
+        {/* <div className='d-flex align-items-center justify-content-center my-3'>
           <span className='cursor-pointer primary-text' onClick={() => setCurrentPage(1)}>First</span>
-          <span className='cursor-pointer primary-text mx-2' onClick={() => setCurrentPage((pre) => pre - 1)}>Previous</span>
+          <span className='cursor-pointer primary-text mx-2' onClick={() => {
+            if (currentPage - 1 <= 0) {
+              setCurrentPage(1);
+            }
+            else setCurrentPage((pre) => pre - 1)
+          }}>Previous</span>
           <span>
             Page {currentPage} of {Math.ceil(totalRecords / 10)}
           </span>
-          <span className='cursor-pointer primary-text mx-2' onClick={() => setCurrentPage((pre) => pre + 1)}>Next</span>
+          <span className='cursor-pointer primary-text mx-2' onClick={() => {
+            if (currentPage + 1 > Math.ceil(totalRecords / 10)) {
+              setCurrentPage(Math.ceil(totalRecords / 10));
+            }
+            else setCurrentPage((pre) => pre + 1)
+          }}>Next</span>
           <span className='cursor-pointer primary-text' onClick={() => setCurrentPage(Math.ceil(totalRecords / 10))}>Last</span>
-        </div>
+        </div> */}
 
       </div>
 
