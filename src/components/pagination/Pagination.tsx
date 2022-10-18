@@ -1,16 +1,7 @@
+import { PaginationProps } from '../../assets/models/models';
 import './pagination.module.css';
-
-type PaginationProps = {
-    currentPage: number,
-    total: number,
-    limit: number,
-    onPageChange: (e: number) => void
-}
-
-
 function Pagination({ currentPage, total, limit = 10, onPageChange }: PaginationProps) {
-
- const numberOfPages = Math.ceil(total / limit);
+    const numberOfPages = Math.ceil(total / limit);
     return (
         <div className='d-flex align-items-center justify-content-center my-3'>
             <span className='cursor-pointer primary-text' onClick={() => onPageChange(1)}>First</span>

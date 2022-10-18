@@ -1,19 +1,7 @@
 import styles from './car.module.css';
 import { useNavigate } from 'react-router-dom'
-type CarProps = {
-    car: {
-        color: string,
-        fuelType: string,
-        manufacturerName: string,
-        mileage: {
-            number: number,
-            unit: string
-        },
-        modelName: string,
-        pictureUrl: string,
-        stockNumber: number
-    }
-}
+import { CarProps } from '../../assets/models/models';
+
 function Car({ car }: CarProps) {
     const navigate = useNavigate();
     return (

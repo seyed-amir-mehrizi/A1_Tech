@@ -1,15 +1,5 @@
 import React from 'react';
-
-
-type SelectItemProps = {
-    label: string,
-    id: string,
-    placeholder: string,
-    onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void,
-    data: any[],
-    name ?: string
-}
-
+import { SelectItemProps } from '../../assets/models/models';
 function SelectItem({ label, id, onChange, data, placeholder , name }: SelectItemProps) {
     return (
         <div className="form-group">
@@ -25,5 +15,4 @@ function SelectItem({ label, id, onChange, data, placeholder , name }: SelectIte
         </div>
     )
 }
-
 export default SelectItem
