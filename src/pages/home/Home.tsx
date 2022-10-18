@@ -91,7 +91,6 @@ function Home() {
 
   return (
     <main className='container-fluid d-flex h-100 w-100 py-4'>
-
       <div className={styles.filterContainer}>
         <div className="card">
           <div className="card-body">
@@ -140,30 +139,7 @@ function Home() {
           limit={10}
           total={totalRecords}
         />
-        {/* <div className='d-flex align-items-center justify-content-center my-3'>
-          <span className='cursor-pointer primary-text' onClick={() => setCurrentPage(1)}>First</span>
-          <span className='cursor-pointer primary-text mx-2' onClick={() => {
-            if (currentPage - 1 <= 0) {
-              setCurrentPage(1);
-            }
-            else setCurrentPage((pre) => pre - 1)
-          }}>Previous</span>
-          <span>
-            Page {currentPage} of {Math.ceil(totalRecords / 10)}
-          </span>
-          <span className='cursor-pointer primary-text mx-2' onClick={() => {
-            if (currentPage + 1 > Math.ceil(totalRecords / 10)) {
-              setCurrentPage(Math.ceil(totalRecords / 10));
-            }
-            else setCurrentPage((pre) => pre + 1)
-          }}>Next</span>
-          <span className='cursor-pointer primary-text' onClick={() => setCurrentPage(Math.ceil(totalRecords / 10))}>Last</span>
-        </div> */}
-
       </div>
-
-
-
     </main>
   )
 }
