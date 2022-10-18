@@ -1,23 +1,27 @@
+import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom'
 import './App.css';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
-import CarDetails from './pages/car-detail/CarDetails';
-import FavoriteCollection from './pages/favorite-collection/FavoriteCollection';
-import Home from './pages/home/Home';
-import NotFound from './pages/not-found/NotFound';
+const Home = lazy(() => import('./pages/home/Home'));
+const CarDetails = lazy(() => import('./pages/car-detail/CarDetails'));
+const FavoriteCollection = lazy(() => import('./pages/favorite-collection/FavoriteCollection'));
+const NotFound = lazy(() => import('./pages/not-found/NotFound'));
+
 
 function App() {
   return (
     <>
       <Header />
       <div className='content p-2'>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/favorite-collection' element={<FavoriteCollection />} />
-          <Route path='/car-details/:stockNumber' element={<CarDetails />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<div>...Loading</div>}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/favorite-collection' element={<FavoriteCollection />} />
+            <Route path='/car-details/:stockNumber' element={<CarDetails />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </div>
       <Footer />
     </>
