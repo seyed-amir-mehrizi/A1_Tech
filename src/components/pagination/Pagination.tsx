@@ -11,7 +11,7 @@ function Pagination({ currentPage, total, limit = 10, onPageChange }: Pagination
                 }
                 else onPageChange(currentPage - 1)
             }}>Previous</h5>
-            <h6 className='font-weight-bolder'>
+            <h6 className='font-weight-bolder' data-testid='pagination-label'>
                 Page {currentPage} of {numberOfPages}
             </h6>
             <h5 className='cursor-pointer primary-text mx-4' onClick={() => {
@@ -19,7 +19,7 @@ function Pagination({ currentPage, total, limit = 10, onPageChange }: Pagination
                     onPageChange(numberOfPages);
                 }
                 else onPageChange(currentPage + 1)
-            }}>Next</h5>
+            }} data-testid='next-element'>Next</h5>
             <h5 className='cursor-pointer primary-text' onClick={() => onPageChange(numberOfPages)}>Last</h5>
         </div>
     )
