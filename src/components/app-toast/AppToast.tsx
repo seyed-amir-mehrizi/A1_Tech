@@ -8,7 +8,7 @@ type ToastProps = {
 
 function AppToast({show , errorMessage} : ToastProps) {
     return (
-        <Toast  show={show} className='bg-danger text-white'>
+        <Toast  show={show} className='bg-danger text-white' data-testid="toast-id">
             <Toast.Header className='bg-danger' closeButton={false}>
                 <strong className="mr-auto text-white">Error</strong>
             </Toast.Header>
