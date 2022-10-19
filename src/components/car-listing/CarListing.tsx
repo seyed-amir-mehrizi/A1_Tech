@@ -7,8 +7,8 @@ import styles from './carListing.module.css';
 function CarListing({ cars }: CarListingProps) {
     return (
         <>{
-            cars.map((carItem) => {
-                return<div key={carItem.stockNumber} className='mb-3'> <Car car={carItem} /></div>
+            cars && cars.map((carItem) => {
+                return <div key={carItem.stockNumber} className='mb-3'> <Car car={carItem} /></div>
             })
         }</>
     )

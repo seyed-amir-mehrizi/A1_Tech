@@ -8,7 +8,7 @@ function SelectItem({ label, id, onChange, data, placeholder , name }: SelectIte
                 onChange={onChange}
             >
                  <option value=''>{placeholder}</option>
-                {data.map((item: any) => {
+                {data && data.map((item: any) => {
                     return <option key={name ? item[name] : item}>{name ? item[name] : item}</option>
                 })}
             </select>

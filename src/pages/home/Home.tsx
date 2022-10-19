@@ -10,66 +10,18 @@ import Pagination from '../../components/pagination/Pagination';
 
 const createArray = (length: number) => [...Array(length)];
 function Home() {
-  const [colors, setColors] = useState([]);
-  const [manufacturers, setManufacturers] = useState([]);
-  const [cars, setCars] = useState([]);
-  const [numberOfAllCars, setNumberOfAllCars] = useState<number>(0);
   const [color, setColor] = useState('');
   const [manufacturer, setManufacturer] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalRecords, setTotalRecords] = useState(1);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    let isCanceled = false;
-    if (!isCanceled) {
-      fetchColors();
-      fetchManufacturers();
-      fetchAllCars();
-    }
-    return () => {
-      isCanceled = true;
-    }
-  }, []);
-
-  const fetchColors = () => {
-    useFetch('colors').then((res) => {
-      setColors(res.colors);
-    })
-      .catch((error) => {
-        setErrorMessage(error.message);
-        setShow(true)
-      })
+  const params = {
+    manufacturer,
+    color,
+    page: currentPage
   }
-  const fetchManufacturers = () => {
-    useFetch('manufacturers').then((res) => {
-      setManufacturers(res.manufacturers);
-    }).catch((error) => {
-      setErrorMessage(error.message);
-      setShow(true)
-    });
-  }
-
-  const fetchAllCars = () => {
-    setIsLoading(true);
-    const params = {
-      manufacturer,
-      color,
-      page: currentPage
-    }
-    useFetch('cars', params)
-      .then((result) => {
-        setCars(result.cars);
-        setNumberOfAllCars(result.totalCarsCount)
-        setIsLoading(false);
-        setTotalRecords(result.totalCarsCount)
-      }).catch((error) => {
-        setErrorMessage(error.message);
-        setShow(true)
-      })
-  }
-
+  const [colors] = useFetch('colors') as any;
+  const [manufacturers] = useFetch('manufacturers') as any;
+  const [cars, carsError, carsLoading , fetchData] = useFetch('cars', params) as any;
+  console.log(carsError)
 
   const handleChangeColor = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setColor(e.target.value)
@@ -78,14 +30,13 @@ function Home() {
   const handleChangeManufacturer = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setManufacturer(e.target.value);
   }
-
   const filterCars = () => {
     setCurrentPage(1);
-    fetchAllCars();
+    fetchData();
   }
 
   useEffect(() => {
-    fetchAllCars();
+    fetchData();
   }, [currentPage])
 
 
@@ -97,13 +48,13 @@ function Home() {
             <SelectItem label='Color'
               id='color'
               placeholder='All Car Colors'
-              data={colors}
+              data={colors.colors}
               onChange={handleChangeColor}
             />
             <SelectItem label='Manufacturer'
               id='manufacturer'
               placeholder='All Manufacturers'
-              data={manufacturers}
+              data={manufacturers.manufacturers}
               onChange={handleChangeManufacturer}
               name='name'
             />
@@ -114,24 +65,24 @@ function Home() {
         </div>
       </div>
       <div className={`${styles.carListing} px-3`}>
-        <AppToast show={show} errorMessage={errorMessage} />
+        {carsError ? <AppToast show={true} errorMessage={carsError} /> : null}
         <h3>Available Cars</h3>
         {
-         !isLoading ?  <h5 className='my-3'>Showing 10 of {numberOfAllCars} results</h5> : 
-         <Skeleton count={1} width={200} height={10} />
+          !carsLoading ? <h5 className='my-3'>Showing 10 of {cars.totalCarsCount} results</h5> :
+            <Skeleton count={1} width={200} height={10} />
         }
         {
-          !isLoading ?
-          <div>
-          <CarListing cars={cars} />
-          <Pagination
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-          limit={10}
-          total={totalRecords}
-        />
-          </div>
-            
+          !carsLoading && !carsError ?
+            <div>
+              <CarListing cars={cars.cars} />
+              <Pagination
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+                limit={10}
+                total={cars.totalCarsCount}
+              />
+            </div>
+
             :
             createArray(10).map((item, i) => {
               return <div key={i} className="media border p-3 my-2">

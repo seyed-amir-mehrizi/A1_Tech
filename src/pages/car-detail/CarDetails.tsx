@@ -6,7 +6,6 @@ import Skeleton from 'react-loading-skeleton';
 import { useFetch } from '../../hooks/useFetch';
 import AppToast from '../../components/app-toast/AppToast';
 import AppAlert from '../../components/alert/AppAlert';
-import { useFetch2 } from '../../hooks/useFetch2';
 function CarDetails() {
   const params = useParams();
   const [carlist, setCarlist] = useState<any[]>([]);
@@ -14,7 +13,7 @@ function CarDetails() {
   const [show, setShow] = useState(false);
   const [hasSelected, setHasSelected] = useState<boolean>(false);
 
-  const [response , error , loading]  = useFetch2(`cars/${params.stockNumber}`) as any;
+  const [response , error , loading]  = useFetch(`cars/${params.stockNumber}`) as any;
   useEffect(() => {
     checkListOfFavoriteCars();
   }, []);
