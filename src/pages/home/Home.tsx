@@ -20,9 +20,7 @@ function Home() {
   }
   const [colors] = useFetch('colors') as any;
   const [manufacturers] = useFetch('manufacturers') as any;
-  const [cars, carsError, carsLoading , fetchData] = useFetch('cars', params) as any;
-  console.log(carsError)
-
+  const [cars, carsError, carsLoading, fetchData] = useFetch('cars', params) as any;
   const handleChangeColor = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setColor(e.target.value)
   }

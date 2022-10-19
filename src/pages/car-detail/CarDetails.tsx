@@ -14,6 +14,7 @@ function CarDetails() {
   const [hasSelected, setHasSelected] = useState<boolean>(false);
 
   const [response , error , loading]  = useFetch(`cars/${params.stockNumber}`) as any;
+  console.log(error)
   useEffect(() => {
     checkListOfFavoriteCars();
   }, []);
@@ -42,7 +43,7 @@ function CarDetails() {
   return (
     <div className="container-fluid">
 
-      <AppToast show={show} errorMessage={error} />
+      {error ? <AppToast show={true} errorMessage={error} /> : null}
       <div className="jumbotron bg-white text-center">
         {
           loading ? <Skeleton height={100} width={400} /> : <img src={response.car?.pictureUrl} alt={response.car?.modelName} />
@@ -82,7 +83,7 @@ function CarDetails() {
                 save it in your collection of favorite items.
               </p>
               <div className='d-flex justify-content-end'>
-                <button className={loading ? 'disabled-button' : 'button'} onClick={saveFavoriteCar} disabled={loading}>Save</button>
+                <button className={loading || error ? 'disabled-button' : 'button'} onClick={saveFavoriteCar} disabled={loading || error}>Save</button>
               </div>
             </div>
           </div>

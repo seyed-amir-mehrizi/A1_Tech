@@ -39,19 +39,19 @@ function FavoriteCollection() {
                     {
                         carsList && carsList.length > 0 ?
                             carsList.map((car: Car, index) => {
-                                return <tr key={car.stockNumber}>
-                                    <td>{car.stockNumber}</td>
-                                    <td>{car.manufacturerName}</td>
-                                    <td>{car.modelName}</td>
-                                    <td>{car.fuelType}</td>
-                                    <td>{car.color}</td>
+                                return <tr key={car?.stockNumber}>
+                                    <td>{car?.stockNumber}</td>
+                                    <td>{car?.manufacturerName}</td>
+                                    <td>{car?.modelName}</td>
+                                    <td>{car?.fuelType}</td>
+                                    <td>{car?.color}</td>
                                     <td className='d-flex align-items-center justify-content-center'>
                                         <FaTrashAlt
                                             color='red'
                                             className='cursor-pointer mr-4'
-                                            onClick={() => deleteCar(car.stockNumber)}
+                                            onClick={() => deleteCar(car?.stockNumber)}
                                         />
-                                        <span data-testid={`view-button-${index}`} onClick={() => navigate(`/car-details/${car.stockNumber}`)}>
+                                        <span data-testid={`view-button-${index}`} onClick={() => navigate(`/car-details/${car?.stockNumber}`)}>
                                             <FaEye
                                                 className='cursor-pointer text-info'
                                             />
