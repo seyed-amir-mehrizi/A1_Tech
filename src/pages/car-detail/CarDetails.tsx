@@ -12,6 +12,7 @@ function CarDetails() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [show, setShow] = useState(false);
+  const [hasSelected, setHasSelected] = useState<boolean>(false);
 
   useEffect(() => {
     let isCanceled = false;
@@ -43,11 +44,12 @@ function CarDetails() {
       const newArr = carlist.find((item) => item.stockNumber === car?.stockNumber);
       if (newArr) {
         setIsSelected(true);
+        setHasSelected(false);
         return
       }
-      else setCarlist([...carlist, car]);
     }
-    setCarlist([...carlist, car])
+    setCarlist([...carlist, car]);
+    setHasSelected(true);
   }
 
   useEffect(() => {
@@ -110,6 +112,9 @@ function CarDetails() {
             isSelected ? <div className="alert alert-danger my-2">
               You have selected This Car.
             </div> : null
+          }
+          {
+            hasSelected ? <div className='alert alert-success my-2'>The is Selected</div> : null
           }
         </div>
 
