@@ -12,7 +12,7 @@ function NotFound() {
         Sorry, the page you are looking for does not exist.
       </p>
       <p>
-        you can always go back to the <Link to='/' className="text-orange">homepage</Link>
+        you can always go back to the <Link to='/' className="text-orange" data-testid='homepage-link'>homepage</Link>
       </p>
     </div>
   )

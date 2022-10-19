@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react"
-import { BrowserRouter } from "react-router-dom";
+import { fireEvent, render, screen } from "@testing-library/react"
+import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import Header from "../Header";
 
 const mockHeader = <BrowserRouter>
@@ -23,6 +23,14 @@ describe('Header Component', () => {
         render(mockHeader);
         const linkElement = screen.getByRole('img', { name: /auto1 logo/i })
         expect(linkElement).toBeVisible();
+    });
+    test('click to logo and go to Home page', () => {
+        render(<MemoryRouter initialEntries={['/favorite-collection']}>
+            <Header />
+        </MemoryRouter>);
+        const linkElement = screen.getByRole('img', { name: /auto1 logo/i })
+        fireEvent.click(linkElement);
+        expect(window.location.pathname).toBe("/");
     });
 })
 

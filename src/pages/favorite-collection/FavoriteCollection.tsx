@@ -24,7 +24,7 @@ function FavoriteCollection() {
             <h3 className='my-3'>
                 Favorite Cars
             </h3>
-            <table className="table table-striped mt-3">
+            <table className="table table-striped mt-3" data-testid="favorite-cars">
                 <thead>
                     <tr>
                         <th>Stock Number</th>
@@ -38,7 +38,7 @@ function FavoriteCollection() {
                 <tbody>
                     {
                         carsList && carsList.length > 0 ?
-                            carsList.map((car: Car) => {
+                            carsList.map((car: Car, index) => {
                                 return <tr key={car.stockNumber}>
                                     <td>{car.stockNumber}</td>
                                     <td>{car.manufacturerName}</td>
@@ -51,10 +51,11 @@ function FavoriteCollection() {
                                             className='cursor-pointer mr-4'
                                             onClick={() => deleteCar(car.stockNumber)}
                                         />
-                                        <FaEye
-                                            className='cursor-pointer text-info'
-                                            onClick={() => navigate(`/car-details/${car.stockNumber}`)}
+                                        <span data-testid={`view-button-${index}`} onClick={() => navigate(`/car-details/${car.stockNumber}`)}>
+                                            <FaEye
+                                                className='cursor-pointer text-info'
                                             />
+                                        </span>
                                     </td>
                                 </tr>
                             }) : <tr>

@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react"
-import { BrowserRouter } from "react-router-dom";
+import { fireEvent, render, screen } from "@testing-library/react"
+import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import NotFound from "../NotFound";
 
 const notFoundComponent = <BrowserRouter>
@@ -17,4 +17,12 @@ describe('Not Found Component', () => {
         const imgElement = screen.getByRole('img', { name: /auto1 logo/i })
         expect(imgElement).toBeVisible();
     })
+    test('click to logo and go to Home page', () => {
+        render(<MemoryRouter initialEntries={['/*']}>
+            <NotFound />
+        </MemoryRouter>);
+        const linkElement = screen.getByTestId('homepage-link')
+        fireEvent.click(linkElement);
+        expect(window.location.pathname).toBe("/");
+    });
 })
