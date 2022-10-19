@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Header() {
     return (
         <header className={styles.headerStyle}>
-            <nav className='d-flex align-items-center justify-content-between w-100 bg-white py-2 px-3 border-bottom'>
+            <nav className='d-flex align-items-center justify-content-between w-100 bg-white py-2 px-3 border-bottom' data-testid="header-component">
                 <div className='d-flex align-items-center'>
                     <Link to='/' className="navbar-brand">
                         <img src={logo} alt='auto1 logo' width={160} />

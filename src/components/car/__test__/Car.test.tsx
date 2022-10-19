@@ -18,20 +18,22 @@ const carComponent = <MemoryRouter>
     <Car car={carObject} />
 </MemoryRouter>
 
-test('should render box for displaying each car list', async () => {
-    render(carComponent);
-    const divElement = screen.getByTestId('car-box');
-    expect(divElement).toBeInTheDocument();
-});
+describe('Car Component', () => {
+    test('should render box for displaying each car list', async () => {
+        render(carComponent);
+        const divElement = screen.getByTestId('car-box');
+        expect(divElement).toBeInTheDocument();
+    });
 
-test('should render heading with modelName from the car props', async () => {
-    render(carComponent);
-    const headingElement = screen.getByRole('heading', { name: `${carObject.manufacturerName} ${carObject.modelName}` })
-    expect(headingElement).toBeInTheDocument();
-});
+    test('should render heading with modelName from the car props', async () => {
+        render(carComponent);
+        const headingElement = screen.getByRole('heading', { name: `${carObject.manufacturerName} ${carObject.modelName}` })
+        expect(headingElement).toBeInTheDocument();
+    });
 
-test('should render stock number of the car in the DOM', async () => {
-    render(carComponent);
-    const spanElement = await screen.findByTestId("stock-number")
-    expect(spanElement).toBeInTheDocument();
-});
+    test('should render stock number of the car in the DOM', async () => {
+        render(carComponent);
+        const spanElement = await screen.findByTestId("stock-number")
+        expect(spanElement).toHaveTextContent(`Stock # ${carObject.stockNumber}`);
+    });
+})
