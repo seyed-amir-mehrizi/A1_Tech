@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Car } from '../../assets/models/models';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt, FaEye } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 function FavoriteCollection() {
+    const navigate = useNavigate();
     const [carsList, setCarsList] = useState([]);
     useEffect(() => {
         const result = JSON.parse(localStorage.getItem('cars') as string);
@@ -43,7 +45,17 @@ function FavoriteCollection() {
                                     <td>{car.modelName}</td>
                                     <td>{car.fuelType}</td>
                                     <td>{car.color}</td>
-                                    <td className='cursor-pointer' onClick={() => deleteCar(car.stockNumber)}><FaTrashAlt color='red' /></td>
+                                    <td className='d-flex align-items-center justify-content-center'>
+                                        <FaTrashAlt
+                                            color='red'
+                                            className='cursor-pointer mr-4'
+                                            onClick={() => deleteCar(car.stockNumber)}
+                                        />
+                                        <FaEye
+                                            className='cursor-pointer text-info'
+                                            onClick={() => navigate(`/car-details/${car.stockNumber}`)}
+                                            />
+                                    </td>
                                 </tr>
                             }) : <tr>
                                 <td colSpan={6}>
