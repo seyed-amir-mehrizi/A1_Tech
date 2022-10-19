@@ -56,7 +56,13 @@ export type SelectItemProps = {
     placeholder: string,
     onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void,
     data: any[],
-    name ?: string
+    name?: string
+}
+
+export type AppAlertProps = {
+    className: string,
+    message: string
+
 }
 
 

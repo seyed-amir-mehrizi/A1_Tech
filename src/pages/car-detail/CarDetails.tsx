@@ -4,6 +4,7 @@ import { Car } from '../../assets/models/models';
 import Skeleton from 'react-loading-skeleton';
 import { useFetch } from '../../hooks/useFetch';
 import AppToast from '../../components/app-toast/AppToast';
+import AppAlert from '../../components/alert/AppAlert';
 function CarDetails() {
   const params = useParams();
   const [car, setCar] = useState<Car | undefined>();
@@ -109,12 +110,15 @@ function CarDetails() {
             </div>
           </div>
           {
-            isSelected ? <div className="alert alert-danger my-2">
-              You have selected This Car.
-            </div> : null
+            isSelected ? <AppAlert className="alert alert-danger my-2"
+              message='You have selected This Car.'
+            /> : null
           }
           {
-            hasSelected ? <div className='alert alert-success my-2'>The is Selected</div> : null
+            hasSelected ?
+              <AppAlert className="alert alert-success my-2"
+                message='The is Selected'
+              /> : null
           }
         </div>
 
