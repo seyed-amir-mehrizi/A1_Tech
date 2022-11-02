@@ -8,7 +8,7 @@ function CarListing({ cars }: CarListingProps) {
     return (
         <>{
             cars && cars.map((carItem) => {
-                return <div key={carItem.stockNumber} className='mb-3'> <Car car={carItem} /></div>
+                return <div key={carItem.stockNumber.toString()} className='mb-3' data-testid="cars-list"> <Car car={carItem} /></div>
             })
         }</>
     )
